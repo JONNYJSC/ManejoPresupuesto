@@ -19,7 +19,7 @@ namespace ManejoPresupuesto.Servicios
         public async Task Crear(Categoria categoria)
         {
             using var connection = new SqlConnection(connectionString);
-            var id = await connection.QuerySingleAsync(@"
+            var id = await connection.QuerySingleAsync<int>(@"
                                     INSERT INTO Categorias(Nombre, TipoOperacionId, UsuarioId)
                                     VALUES (@Nombre, @TipoOperacionId, @UsuarioId);
 
