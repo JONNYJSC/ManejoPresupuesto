@@ -1,14 +1,19 @@
-﻿@model TransaccionCreacionViewModel
+﻿@model TransaccionActualizacionViewModel
 
 @{
-    ViewData["Title"] = "Crear Transaccion";
+    ViewData["Title"] = "Editar Transaccion";
 }
 
 <h1>Crear Transaccion</h1>
 <h5>Una transaccion te permite indicar tus ingresos y gastos</h5>
 
-<form asp-action="Crear">
+<form asp-action="Editar">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="MontoAnterior" />
+    <input type="hidden" asp-for="CuentaAnteriorId" />
+
     <div class="mb-3">
         <label asp-for="FechaTransaccion" class="form-label"></label>
         <input asp-for="FechaTransaccion" class="form-control" />
