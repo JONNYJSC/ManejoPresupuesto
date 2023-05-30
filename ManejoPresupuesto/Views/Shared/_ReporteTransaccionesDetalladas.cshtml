@@ -3,7 +3,7 @@
 <h4>
     <a asp-route-mes="@ViewBag.mesAnterior" asp-route-anio="@ViewBag.anioAnterior"
        class="btn btn-secondary"><i class="bi-chevron-left"></i></a>
-    @Model.FechaInicio.ToString("MM")-@Model.FechaInicio.Year
+    @Model.FechaInicio.ToString("MMM")-@Model.FechaInicio.Year
     <a asp-route-mes="@ViewBag.mesPosterior" asp-route-anio="@ViewBag.anioPosterior"
        class="btn btn-secondary"><i class="bi-chevron-right"></i></a>
 </h4>
