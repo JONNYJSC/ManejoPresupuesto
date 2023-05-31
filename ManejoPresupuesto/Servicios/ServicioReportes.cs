@@ -4,7 +4,8 @@ namespace ManejoPresupuesto.Servicios
 {
     public interface IServicioReportes
     {
-        Task<ReporteTransaccionesDetalladas> ObtenerTransaccionesDetalladas(int usuarioId, int mes, int anio, dynamic ViewBag);
+        Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerReporteSemanal(int usuarioId, int mes, int anio, dynamic ViewBag);
+        Task<ReporteTransaccionesDetalladas> ObtenerReporteTransaccionesDetalladas(int usuarioId, int mes, int anio, dynamic ViewBag);
         Task<ReporteTransaccionesDetalladas> ObtenerTransaccionesDetalladasPorCuenta(int usuarioId, int cuentaId, int mes, int anio, dynamic ViewBag);
     }
     public class ServicioReportes : IServicioReportes
@@ -17,7 +18,23 @@ namespace ManejoPresupuesto.Servicios
             this.httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<ReporteTransaccionesDetalladas> ObtenerTransaccionesDetalladas(int usuarioId, int mes, int anio, dynamic ViewBag)
+        public async Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerReporteSemanal(int usuarioId, int mes, int anio, dynamic ViewBag)
+        {
+            (DateTime fechaInicio, DateTime fechaFin) = GenerarFechaInicioYFin(mes, anio);
+
+            var parametro = new ParametroObtenerTransaccionesPorUsuario()
+            {
+                UsuarioId = usuarioId,
+                FechaInicio = fechaInicio,
+                FechaFin = fechaFin,
+            };
+
+            AsignarValoresAlViewBag(ViewBag, fechaInicio);
+            var modelo = await repositorioTransacciones.ObtenerPorSemana(parametro);
+            return modelo;
+        }
+
+        public async Task<ReporteTransaccionesDetalladas> ObtenerReporteTransaccionesDetalladas(int usuarioId, int mes, int anio, dynamic ViewBag)
         {
             (DateTime fechaInicio, DateTime fechaFin) = GenerarFechaInicioYFin(mes, anio);
 
@@ -64,7 +81,7 @@ namespace ManejoPresupuesto.Servicios
             ViewBag.mesPosterior = fechaInicio.AddMonths(1).Month;
             ViewBag.anioPosterior = fechaInicio.AddMonths(1).Year;
             ViewBag.urlRetorno = httpContext.Request.Path + httpContext.Request.QueryString;
-        }
+        }        
 
         private static ReporteTransaccionesDetalladas GenerarReporteTransaccionesDetalladas(DateTime fechaInicio, DateTime fechaFin, IEnumerable<Transaccion> transacciones)
         {

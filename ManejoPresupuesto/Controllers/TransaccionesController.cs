@@ -38,13 +38,15 @@ namespace ManejoPresupuesto.Controllers
         {
             var usuarioId = servicioUsuarios.ObtenerUsuarioId();
 
-            var modelo = await servicioReportes.ObtenerTransaccionesDetalladas(usuarioId, mes, anio, ViewBag);
+            var modelo = await servicioReportes.ObtenerReporteTransaccionesDetalladas(usuarioId, mes, anio, ViewBag);
 
             return View(modelo);
         }
 
-        public IActionResult Semanal()
+        public async Task<IActionResult> Semanal(int mes, int anio)
         {
+            var usuarioId = servicioUsuarios.ObtenerUsuarioId();
+            IEnumerable<ResultadoObtenerPorSemana> transaccionesPorSemana = await servicioReportes.ObtenerReporteSemanal(usuarioId, mes, anio, ViewBag);
             return View();
         }
 
