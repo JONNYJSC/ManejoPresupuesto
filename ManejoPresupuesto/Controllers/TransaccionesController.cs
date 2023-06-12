@@ -150,7 +150,7 @@ namespace ManejoPresupuesto.Controllers
 
             var modelo = new ReporteMensualViewModel();
             modelo.Anio = anio;
-            modelo.TransaccionesPorMes = transaccionesPorMes;
+            modelo.TransaccionesPorMes = transaccionesAgrupadas;
 
             return View(modelo);
         }
