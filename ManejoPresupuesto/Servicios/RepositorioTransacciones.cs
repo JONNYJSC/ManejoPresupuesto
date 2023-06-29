@@ -77,6 +77,7 @@ namespace ManejoPresupuesto.Servicios
                            ,c.Nombre AS Categoria
                            ,cu.Nombre AS Cuenta
                            ,c.TipoOperacionId
+                           ,t.Nota
                         FROM Transacciones t
                         INNER JOIN Categorias c
 	                        ON t.CategoriaId = c.Id
